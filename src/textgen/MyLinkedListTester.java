@@ -1,0 +1,368 @@
+/**
+ * 
+ */
+package textgen;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author UC San Diego MOOC team
+ *
+ */
+public class MyLinkedListTester {
+
+	private static final int LONG_LIST_LENGTH =10; 
+
+	MyLinkedList<String> shortList;
+	MyLinkedList<Integer> emptyList;
+	MyLinkedList<Integer> longerList;
+	MyLinkedList<Integer> list1;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		// Feel free to use these lists, or add your own
+	    shortList = new MyLinkedList<String>();
+		shortList.add("A");
+		shortList.add("B");
+		
+		emptyList = new MyLinkedList<Integer>();
+		
+		longerList = new MyLinkedList<Integer>();
+		
+		for (int i = 0; i < LONG_LIST_LENGTH; i++)
+		{
+			longerList.add(i);
+		}
+		
+		list1 = new MyLinkedList<Integer>();
+		list1.add(65);
+		list1.add(21);
+		list1.add(42);
+	}
+
+	
+	/** Test if the get method is working correctly.
+	 */
+	/*You should not need to add much to this method.
+	 * We provide it as an example of a thorough test. */
+	@Test
+	public void testGet()
+	{
+		////////////////test empty list, get should throw an exception
+		try {
+			emptyList.get(0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		//////////////// test short list: first contents, then out of bounds
+		assertEquals("Check first", "A", shortList.get(0));
+		assertEquals("Check second", "B", shortList.get(1));
+		
+		try {
+			shortList.get(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			shortList.get(2);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		//////////////// test longer list contents
+		for(int i = 0; i<LONG_LIST_LENGTH; i++ ) {
+			assertEquals("Check " + i + " element", (Integer)i, longerList.get(i));
+		}
+		
+		// test off the end of the longer array
+		try {
+			longerList.get(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			longerList.get(LONG_LIST_LENGTH);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+	}
+	
+	
+	/** Test removing an element from the list.
+	 * We've included the example from the concept challenge.
+	 * You will want to add more tests.  */
+	@Test
+	public void testRemove()
+	{
+		int a = list1.remove(0);
+		assertEquals("Remove: check a is correct ", 65, a);
+		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
+		assertEquals("Remove: check size is correct ", 2, list1.size());
+		
+		//check removing last element
+		String b = shortList.remove(1);
+		assertEquals("Remove: check a is correct ", "B", b);
+		assertEquals("Remove: check element 0 is correct ", "A", shortList.get(0));
+		assertEquals("Remove: check size is correct ", 1, shortList.size());
+		////////////////test list1, should throw an exception
+		try {
+			list1.remove(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			list1.remove(3);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		////////////////test empty list, should throw an exception
+		
+		try {
+			emptyList.remove(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			emptyList.remove(0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+	}
+	
+	/** Test adding an element into the end of the list, specifically
+	 *  public boolean add(E element)
+	 * */
+	@Test
+	public void testAddEnd()
+	{
+        
+		////////////////test empty list, check contents after adding two elements
+		emptyList.add(5);
+		emptyList.add(33);
+		assertEquals("Check first", (Integer)5, emptyList.get(0));
+		assertEquals("Check second", (Integer)33, emptyList.get(1));
+		assertEquals("Check size is correct ", 2, emptyList.size());
+		
+		////////////////test non-empty list, check contents after adding two elements
+		////////////////also check two original elements in the list after adding
+		shortList.add("C");
+		shortList.add("D");
+		assertEquals("Check first", "A", shortList.get(0));
+		assertEquals("Check second", "B", shortList.get(1));
+		assertEquals("Check third", "C", shortList.get(2));
+		assertEquals("Check fourth", "D", shortList.get(3));
+		assertEquals("Check size is correct ", 4, shortList.size());
+		
+		////////////////on two lists check out of bounds after adding
+		try {
+		emptyList.get(-1);
+		fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+
+		try {
+		shortList.get(4);
+		fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		////////////////////////////check adding a null element///////////
+		try	{
+			shortList.add(null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+		
+		try {
+			longerList.add(null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+		
+	}	
+
+	
+
+	
+	/** Test the size of the list */
+	@Test
+	public void testSize()
+	{
+		////////////////test the size of all the lists from setUp
+		assertEquals("Check shortList", 2, shortList.size());
+		assertEquals("Check emptyList", 0, emptyList.size());
+		assertEquals("Check longerList", LONG_LIST_LENGTH, longerList.size());
+		assertEquals("Check list1", 3, list1.size());
+	}
+
+	
+	
+	/** Test adding an element into the list at a specified index,
+	 * specifically:
+	 * public void add(int index, E element)
+	 * */
+	@Test
+	public void testAddAtIndex()
+	{		
+		////////////////test empty list, check adding at invalid index
+		try {
+		emptyList.add(-1, 50);
+		fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			emptyList.add(1, 50);
+			fail("Check out of bounds");
+			}
+			catch (IndexOutOfBoundsException e) {}
+		
+		////////////////test longerList, check adding at invalid index
+		try	{
+			longerList.add(-1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+			
+		try {
+			longerList.add(LONG_LIST_LENGTH + 1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		
+		////////////////test longerList, check adding at the size index
+		longerList.add(longerList.size(), 300);	
+		assertEquals("Check first", (Integer)300, longerList.get(longerList.size()-1));	
+		
+		
+		////////////////test empty list, check contents after adding two elements
+		emptyList.add(0, 50);
+		emptyList.add(1, 100);
+		assertEquals("Check first", (Integer)50, emptyList.get(0));
+		assertEquals("Check second", (Integer)100, emptyList.get(1));
+		
+		////////////////test empty list, check if elements move up after insertion
+		emptyList.add(1, 5000);
+		assertEquals("Check first", (Integer)50, emptyList.get(0));
+		assertEquals("Check second", (Integer)5000, emptyList.get(1));
+		assertEquals("Check third", (Integer)100, emptyList.get(2));
+		assertEquals("Check size is correct ", 3, emptyList.size());
+		
+		
+		////////////////test short list, check if elements move up after insertion
+		shortList.add(0, "C");
+		shortList.add(0, "D");
+		assertEquals("Check first", "D", shortList.get(0));
+		assertEquals("Check second", "C", shortList.get(1));
+		assertEquals("Check third", "A", shortList.get(2));
+		assertEquals("Check fourth", "B", shortList.get(3));
+		
+		////////////////////////////check adding a null element///////////
+		try	{
+			shortList.add(0, null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+		
+		try {
+			longerList.add(LONG_LIST_LENGTH - 1, null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+		
+		
+	}
+	
+	/** Test setting an element in the list */
+	@Test
+	public void testSet()
+	{
+	    
+		///////////// set 0th element
+		String returnedValue = shortList.set(0, "Z");
+		assertEquals("Check Oth element is set", "Z", shortList.get(0));
+		assertEquals("Check returned element", "A", returnedValue);
+		
+		///////////// set last element
+		int intVal = longerList.set(LONG_LIST_LENGTH - 1, 1000);
+		assertEquals("Check size-1 element is set", (Integer)1000, longerList.get(LONG_LIST_LENGTH - 1));
+		assertEquals("Check returned element", 9, intVal);
+		
+		///////////// set a middle element
+		int intVal2 =  list1.set(1, 2000);
+		assertEquals("Check a middle element is set", (Integer)2000, list1.get(1));
+		assertEquals("Check returned element", 21, intVal2);
+		
+		////////////check setting at invalid index///////////
+		try {
+			emptyList.set(-1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		try {
+			emptyList.set(0, 50);
+			fail("Check out of bounds");
+		}
+			catch (IndexOutOfBoundsException e) {}
+		
+		////////////////test longerList, check adding at invalid index
+		try	{
+			longerList.set(-1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+			
+		try {
+			longerList.set(LONG_LIST_LENGTH, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {}
+		
+		////////////check setting a null element///////////
+		try	{
+			shortList.set(0, null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+			
+		try {
+			longerList.set(LONG_LIST_LENGTH - 1, null);
+			fail("Check setting a null element");
+		}
+		catch (NullPointerException e) {}
+	}
+	
+	
+	// TODO: Optionally add more test methods.
+	
+	/** Test initializing a list with a no-argument constructor
+	 * and 2 sentinel values */
+	@Test
+	public void testNoArgConstructor()
+	{
+		assertNotEquals ("Check head is not null ", null, emptyList.head);
+		assertNotEquals ("Check head is not null ", null, emptyList.tail);
+		assertEquals("Check head's next ref points to tail ", emptyList.tail , emptyList.head.next);
+		assertEquals("Check tail's prev ref points to head ", emptyList.head , emptyList.tail.prev);
+	    
+	}
+	
+}

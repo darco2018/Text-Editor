@@ -1,0 +1,28 @@
+/*/////////////my testing///////////////
+		MarkovTextGeneratorLoL myGen = new MarkovTextGeneratorLoL();
+		myGen.train("hi there");
+		System.out.println(myGen);
+		System.out.println();
+		//
+		System.out.println("Checking myGen.getNodeAt(nodeIndex): ");
+		ListNode node = myGen.getNodeAt(0) ;
+		System.out.println("node at 0: " + myGen.getNodeAt(0) + "returned word: " + 
+				node.getRandomNextWord(new Random()) + " // ");
+		node = myGen.getNodeAt(1) ;
+		System.out.println("node at 1: " + myGen.getNodeAt(1) + "returned word: " + 
+				node.getRandomNextWord(new Random())+ " // ");
+		/////////////
+*/		
+		/*ListNode node2;
+		MarkovTextGeneratorLoL myGen2 = new MarkovTextGeneratorLoL();
+		myGen2.train("hi there hi Leo Leo");
+		System.out.println(myGen2);
+		
+		System.out.println("Checking myGen2.getNodeAt(nodeIndex): ");		
+		System.out.print("node at 0: " + myGen2.getNodeAt(0));
+		System.out.print("node at 1: " + myGen2.getNodeAt(1));
+		System.out.print("node at 2: " + myGen2.getNodeAt(2));
+		System.out.print("node at 3: " + myGen2.getNodeAt(3));
+		//System.out.println(System.out.println(myGen2.generateText(1)));
+*/		
+		/////////////end of my testing///////////////
